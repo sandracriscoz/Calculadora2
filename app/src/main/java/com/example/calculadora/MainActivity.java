@@ -7,118 +7,76 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
-    TextView Resultado;
-    float num = 0.0f;
-    float num2 = 0.0f;
-    String operacion = "";
+import com.google.android.material.button.MaterialButton;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    TextView resultado;
+    MaterialButton button0, button1, button2, button3, button4, button5, button6, button7, button8, button9, buttonC, buttonIgual, buttonMas;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Resultado = findViewById(R.id.Resultado);
-
+        resultado = findViewById(R.id.Resultado);
+        botones(button0, R.id.button0);
+        botones(button1, R.id.button1);
+        botones(button2, R.id.button2);
+        botones(button3, R.id.button3);
+        botones(button4, R.id.button4);
+        botones(button5, R.id.button5);
+        botones(button6, R.id.button6);
+        botones(button7, R.id.button7);
+        botones(button8, R.id.button8);
+        botones(button9, R.id.button9);
+        botones(buttonC, R.id.buttonC);
+        botones(buttonIgual, R.id.buttonIgual);
+        botones(buttonMas, R.id.buttonMas);
     }
 
-    public void Escribe1(View view) {
-        num = Float.parseFloat(Resultado.getText().toString());
-        if (num == 0.0f){
-            Resultado.setText("1");
-        }else{
-            Resultado.setText(Resultado.getText() + "1");
+    void botones(MaterialButton boton, int id) {
+        boton = findViewById(id);
+        boton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        boolean correcto;
+        int num, num2, total;
+        StringBuilder sum1 = new StringBuilder();
+        StringBuilder sum2 = new StringBuilder();
+        MaterialButton button = (MaterialButton) view;
+        String button_Text = button.getText().toString();
+        String cadena = resultado.getText().toString();
+        if (button_Text.equals("=")) {
+            correcto = false;
+            for (int i = 0; i < cadena.length(); i++) {
+                if (String.valueOf(cadena.charAt(i)).equals("+")) {
+                    correcto = true;
+                } else if (!correcto) {
+                    sum1.append(cadena.charAt(i));
+                } else {
+                    sum2.append(cadena.charAt(i));
+                }
+            }
+            try {
+                num = Integer.parseInt(sum1.toString());
+                num2 = Integer.parseInt(sum2.toString());
+                total = num + num2;
+                cadena = String.valueOf(total);
+            } catch (NumberFormatException e) {
+                e.getMessage();
+            }
+            resultado.setText("");
+
+        } else if (button_Text.equals("C")) {
+            resultado.setText("");
+            return;
+        } else {
+            cadena = cadena + button_Text;
+            System.out.println(cadena);
         }
-
-    }
-
-    public void Escribe2(View view) {
-        num = Float.parseFloat(Resultado.getText().toString());
-        if (num == 0.0f){
-            Resultado.setText("2");
-        }else{
-            Resultado.setText(Resultado.getText() + "2");
-        }
-    }
-
-    public void Escribe3(View view) {
-        num = Float.parseFloat(Resultado.getText().toString());
-        if (num == 0.0f){
-            Resultado.setText("3");
-        }else{
-            Resultado.setText(Resultado.getText() + "3");
-        }
-    }
-
-    public void Escribe4(View view) {
-        num = Float.parseFloat(Resultado.getText().toString());
-        if (num == 0.0f){
-            Resultado.setText("4");
-        }else{
-            Resultado.setText(Resultado.getText() + "4");
-        }
-    }
-
-    public void Escribe5(View view) {
-        num = Float.parseFloat(Resultado.getText().toString());
-        if (num == 0.0f){
-            Resultado.setText("5");
-        }else{
-            Resultado.setText(Resultado.getText() + "5");
-        }
-    }
-
-    public void Escribe6(View view) {
-        num = Float.parseFloat(Resultado.getText().toString());
-        if (num == 0.0f){
-            Resultado.setText("6");
-        }else{
-            Resultado.setText(Resultado.getText() + "6");
-        }
-    }
-
-    public void Escribe7(View view) {
-        num = Float.parseFloat(Resultado.getText().toString());
-        if (num == 0.0f){
-            Resultado.setText("7");
-        }else{
-            Resultado.setText(Resultado.getText() + "7");
-        }
-    }
-    public void Escribe8(View view) {
-        num = Float.parseFloat(Resultado.getText().toString());
-        if (num == 0.0f){
-            Resultado.setText("8");
-        }else{
-            Resultado.setText(Resultado.getText() + "8");
-        }
-    }
-    public void Escribe9(View view) {
-        num = Float.parseFloat(Resultado.getText().toString());
-        if (num == 0.0f){
-            Resultado.setText("9");
-        }else{
-            Resultado.setText(Resultado.getText() + "9");
-        }
-    }
-    public void EscribeCero(View view) {
-        num = Float.parseFloat(Resultado.getText().toString());
-        if (num == 0.0f){
-            Resultado.setText("0");
-        }else{
-            Resultado.setText(Resultado.getText() + "0");
-        }
-    }
-
-    public void LimpiarResultado(View view) {
-        Resultado.setText("0");
-        num = 0.0f;
-        num2 = 0.0f;
-        operacion = "";
-    }
-
-    public void EscribeIgual(View view) {
-
+        resultado.setText(cadena);
     }
 }
